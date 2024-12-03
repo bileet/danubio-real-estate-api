@@ -8,6 +8,7 @@ use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
 use App\Http\Resources\PropertyCollection;
 use App\Http\Resources\PropertyResource;
+use Illuminate\Support\Facades\DB;
 
 class PropertyController extends Controller
 {
@@ -31,8 +32,16 @@ class PropertyController extends Controller
         // Create the property
         $property = Property::create($data);
 
+        $address = $data['address'];
+
+        // Prepare the coordinates for the address
+        $address['coordinates'] = [
+            'latitude' => $address['latitude'],
+            'longitude' => $address['longitude'],
+        ];
+        
         // Create & assign the address to the property
-        $property->address()->create($data['address']);
+        $property->address()->create($address);
 
         return new PropertyResource($property);
     }

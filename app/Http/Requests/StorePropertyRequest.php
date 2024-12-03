@@ -33,6 +33,8 @@ class StorePropertyRequest extends FormRequest
             'price' => 'required|decimal:0,2',
             'address' => 'required|array',
             'address.street' => 'required|string|max:255',
+            'address.latitude' => 'required|numeric',
+            'address.longitude' => 'required|numeric',
         ];
     }
 }

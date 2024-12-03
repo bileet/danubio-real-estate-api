@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use App\Casts\CoordinateCast;
 
 class Address extends Model
 {
@@ -11,6 +12,11 @@ class Address extends Model
         'addressable_type',
         'addressable_id',
         'street',
+        'coordinates',
+    ];
+
+    protected $casts = [
+        'coordinates' => CoordinateCast::class,
     ];
 
     public function addressable(): MorphTo
