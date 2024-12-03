@@ -8,5 +8,12 @@ use App\Http\Requests\UpdatePropertyRequest;
 use App\Http\Resources\PropertyCollection;
 class PropertyController extends Controller
 {
-    //
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        $properties = Property::all();
+        return new PropertyCollection($properties);
+    }
 }

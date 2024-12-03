@@ -14,6 +14,9 @@ class PropertyCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return [];
+        return [
+            'success' => true,
+            'data' => $this->collection,
+        ];
     }
 }
