@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\PropertyType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StorePropertyRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StorePropertyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,15 @@ class StorePropertyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'type' => ['required', 'string', new Enum(PropertyType::class)],
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'size' => 'required|integer|min:1',
+            'size_unit' => 'required|string|in:sqm,sqft',
+            'bedrooms' => 'required|integer|min:1',
+            'price' => 'required|decimal:0,2',
+            'address' => 'required|array',
+            'address.street' => 'required|string|max:255',
         ];
     }
 }

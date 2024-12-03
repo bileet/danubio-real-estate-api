@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PropertyType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
@@ -11,8 +12,14 @@ class Property extends Model
         'title',
         'description',
         'type',
+        'size',
+        'size_unit',
         'price',
         'bedrooms',
+    ];
+
+    protected $casts = [
+        'type' => PropertyType::class,
     ];
 
     public function address(): MorphOne
