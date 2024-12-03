@@ -51,7 +51,22 @@ class PropertyController extends Controller
             ->when($filters->has('price'), function ($query) use ($filters) {
                 $priceWithCondition = explode(':', $filters->get('price'));
                 return $query->where('price', $priceWithCondition[0], $priceWithCondition[1]);
-            });
+            })
+            // Filter by coordinates when available, using the Haversine formula to calculate the distance and get the properties within the radius.
+            ->when(
+                $filters->has('latitude')
+                    && $filters->has('longitude')
+                    && $filters->has('radius'),
+                function ($query) use ($filters) {
+                    return $query->whereHas('address', function ($query) use ($filters) {
+                        $latitude = $filters->get('latitude');
+                        $longitude = $filters->get('longitude');
+                        $radius = $filters->get('radius');
+
+                        $query->whereRaw('ST_Distance_Sphere(coordinates, ST_GeomFromText(\'POINT(' . $latitude . ' ' . $longitude . ')\', 4326)) <= ' . $radius);
+                    });
+                }
+            );
 
         $paginated = $properties->simplePaginate($filters->get('per_page', 15));
 

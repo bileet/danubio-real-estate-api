@@ -56,6 +56,6 @@ class CoordinateCast implements CastsAttributes
         $longitude = $value['longitude'] ?? 0.0;
 
         // Use raw SQL to create the coordinates
-        return DB::raw("ST_SRID(Point({$latitude}, {$longitude}), 4326)");
+        return DB::raw("ST_SRID(Point({$longitude}, {$latitude}), 4326)");
     }
 }

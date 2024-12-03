@@ -33,6 +33,9 @@ class ListPropertyWithFilterRequest extends FormRequest
             'size' => ['sometimes', 'string', 'regex:' . $measurableRegex],
             'bedrooms' => ['sometimes', 'string', 'regex:' . $measurableRegex],
             'price' => ['sometimes', 'string', 'regex:' . $measurableRegex],
+            'latitude' => ['required_with:longitude', 'numeric', 'min:-90', 'max:90'],
+            'longitude' => ['required_with:latitude', 'numeric', 'min:-180', 'max:180'],
+            'radius' => ['required_with:latitude,longitude', 'integer', 'min:1'],
 
             // Pagination
             'page' => 'integer|min:1',
